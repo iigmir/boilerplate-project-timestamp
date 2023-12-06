@@ -21,8 +21,10 @@ app.get("/", function(req, res) {
 
 // your first API endpoint... 
 app.get("/api/:date?", function(req, res) {
-    const get_unit = (input) => /^\d{13}$/g.test(input) ? Number(input) : String(input);
-    const date = new Date(get_unit(req.params.date));
+    const get_unit = (input) => {
+        return /^\d{13}$/g.test(input) ? Number(input) : String(input)
+    };
+    const date = req.params.date ? new Date(get_unit(req.params.date)) : new Date();
     res.json({
         unix: date.getTime(),
         utc: date.toString(),
