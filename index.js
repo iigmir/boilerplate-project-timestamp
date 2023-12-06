@@ -27,15 +27,15 @@ app.get("/api/:date?", function(req, res) {
                 // An unix timestamp string
                 Number(input) :
                 // A typical date string
-                String(input) ;
+                String(input);
             return (new Date(date_str));
         }
         return (new Date());
     }
     const current_date = get_date(req.params.date);
-    const utc = current_date.toString();
+    const utc = current_date.toGMTString();
     const unix = current_date.getTime();
-    if ( isNaN(unix) ) {
+    if (isNaN(unix)) {
         res.json({ error: utc });
     }
     res.json({ unix, utc, });
