@@ -22,26 +22,23 @@ app.get("/", function(req, res) {
 // your first API endpoint... 
 app.get("/api/:date?", function(req, res) {
     function get_date(input = undefined) {
-        if(input) {
+        if (input) {
             const date_str = /^\d{13}$/g.test(input) ?
                 // An unix timestamp string
                 Number(input) :
                 // A typical date string
-                String(input)
-            ;
-            return new Date( date_str );
+                String(input) ;
+            return (new Date(date_str));
         }
-        return new Date();
+        return (new Date());
     }
-    const date = get_date(req.params.date);
-    const utc = date.toString();
-    if( utc === "Invalid Date" ) {
-        return { error: utc };
+    const current_date = get_date(req.params.date);
+    const utc = current_date.toString();
+    const unix = current_date.getTime();
+    if ( isNaN(unix) ) {
+        res.json({ error: utc });
     }
-    res.json({
-        unix: date.getTime(),
-        utc: utc,
-    });
+    res.json({ unix, utc, });
 });
 
 
